@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hôtel Luxe - Réservation en ligne</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 20px;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .hero {
+            height: 80vh;
+            background: url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3') center/cover;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.2rem;
+            color: var(--dark);
+        }
+
+        .rooms {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .room-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .room-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .room-card:hover .room-img img {
+            transform: scale(1.05);
+        }
+
+        .room-info {
+            padding: 20px;
+        }
+
+        .room-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .room-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin: 10px 0;
+        }
+
+        .room-price span {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .amenity {
+            background: var(--light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .booking-form {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .total-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: right;
+            margin: 20px 0;
+            color: var(--secondary);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .map {
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Hôtel<span>Luxe</span></a>
+                <ul>
+                    <li><a href="#home">Accueil</a></li>
+                    <li><a href="#rooms">Chambres</a></li>
+                    <li><a href="#booking">Réservation</a></li>
+                    <li><a href="#gallery">Galerie</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Votre séjour de rêve commence ici</h1>
+                <p>Découvrez notre hôtel 5 étoiles avec piscine, spa et restaurant gastronomique au cœur de la ville.</p>
+                <a href="#booking" class="btn">Réserver maintenant</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="rooms">
+        <div class="container">
+            <h2 class="section-title">Nos Chambres</h2>
+            <div class="rooms" id="rooms-container">
+                <!-- Chambres générées dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <section id="booking">
+        <div class="container">
+            <h2 class="section-title">Réservation</h2>
+            <form class="booking-form" id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkin">Date d'arrivée</label>
+                        <input type="date" id="checkin" name="checkin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout">Date de départ</label>
+                        <input type="date" id="checkout" name="checkout" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="room-type">Type de chambre</label>
+                        <select id="room-type" name="room-type" required>
+                            <option value="">-- Sélectionnez --</option>
+                            <!-- Options générées dynamiquement -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Nombre de personnes</label>
+                        <select id="guests" name="guests" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="special-requests">Demandes spéciales</label>
+                    <textarea id="special-requests" name="special-requests" rows="4"></textarea>
+                </div>
+
+                <div class="total-price" id="totalPrice">
+                    Total: €0
+                </div>
+
+                <button type="submit" class="btn">Confirmer la réservation</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div class="container">
+            <h2 class="section-title">Galerie</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3" alt="Piscine">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?ixlib=rb-4.0.3" alt="Restaurant">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3" alt="Spa">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3" alt="Chambre Deluxe">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3" alt="Bar">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1539667468225-eebb663053e6?ixlib=rb-4.0.3" alt="Vue">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact & Localisation</h2>
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.292292615509614!3d48.85837007928746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1623258137717!5m2!1sfr!2sfr" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Hôtel Luxe</h3>
+                    <p>123 Avenue des Champs-Élysées<br>75008 Paris, France</p>
+                    <p>Email: contact@hotelluxe.com</p>
+                    <p>Téléphone: +33 1 23 45 67 89</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="#home">Accueil</a></li>
+                        <li><a href="#rooms">Chambres</a></li>
+                        <li><a href="#booking">Réservation</a></li>
+                        <li><a href="#gallery">Galerie</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Spa & Bien-être</a></li>
+                        <li><a href="#">Restaurant</a></li>
+                        <li><a href="#">Événements</a></li>
+                        <li><a href="#">Transport</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Réseaux sociaux</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tripadvisor"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Hôtel Luxe. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Réservation confirmée!</h2>
+            <p id="confirmationDetails"></p>
+            <p>Un email de confirmation vous a été envoyé.</p>
+            <button class="btn" id="closeModalBtn">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Données des chambres
+            const rooms = [
+                {
+                    id: 1,
+                    name: "Chambre Standard",
+                    description: "Chambre confortable avec lit double, salle de bain privée et vue sur la ville.",
+                    price: 120,
+                    image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3",
+                    amenities: ["Wi-Fi", "TV", "Climatisation", "Petit-déjeuner"]
+                },
+                {
+                    id: 2,
+                    name: "Chambre Deluxe",
+                    description: "Espace spacieux avec lit king-size, salon et vue panoramique.",
+                    price: 200,
+                    image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3",
+                    amenities: ["Wi-Fi", "TV écran plat", "Mini-bar", "Climatisation", "Petit-déjeuner"]
+                },
+                {
+                    id: 3,
+                    name: "Suite Exécutive",
+                    description: "Suite luxueuse avec espace salon séparé, salle de bain en marbre et balcon privé.",
+                    price: 350,
+                    image: "https://images.unsplash.com/photo-1566669437685-2c5a585fac3a?ixlib=rb-4.0.3",
+                    amenities: ["Wi-Fi", "TV écran plat", "Mini-bar", "Climatisation", "Room service", "Petit-déjeuner"]
+                },
+                {
+                    id: 4,
+                    name: "Suite Présidentielle",
+                    description: "Notre suite la plus exclusive avec deux chambres, salon spacieux et jacuzzi privé.",
+                    price: 600,
+                    image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3",
+                    amenities: ["Wi-Fi", "TV écran plat", "Mini-bar", "Climatisation", "Room service 24/7", "Jacuzzi", "Petit-déjeuner"]
+                }
+            ];
+
+            // Afficher les chambres
+            const roomsContainer = document.getElementById('rooms-container');
+            const roomTypeSelect = document.getElementById('room-type');
+            
+            rooms.forEach(room => {
+                // Ajouter aux cartes chambres
+                const roomCard = document.createElement('div');
+                roomCard.className = 'room-card';
+                roomCard.innerHTML = `
+                    <div class="room-img">
+                        <img src="${room.image}" alt="${room.name}">
+                    </div>
+                    <div class="room-info">
+                        <h3>${room.name}</h3>
+                        <p>${room.description}</p>
+                        <div class="amenities">
+                            ${room.amenities.map(amenity => `<span class="amenity">${amenity}</span>`).join('')}
+                        </div>
+                        <div class="room-price">€${room.price} <span>/nuit</span></div>
+                        <a href="#booking" class="btn" data-room-id="${room.id}">Réserver</a>
+                    </div>
+                `;
+                roomsContainer.appendChild(roomCard);
+                
+                // Ajouter aux options du formulaire
+                const option = document.createElement('option');
+                option.value = room.id;
+                option.textContent = `${room.name} (€${room.price}/nuit)`;
+                roomTypeSelect.appendChild(option);
+            });
+
+            // Calcul du prix total
+            function calculateTotal() {
+                const checkin = new Date(document.getElementById('checkin').value);
+                const checkout = new Date(document.getElementById('checkout').value);
+                const roomId = document.getElementById('room-type').value;
+                const guests = document.getElementById('guests').value;
+                
+                if (checkin && checkout && roomId) {
+                    // Calculer le nombre de nuits
+                    const timeDiff = checkout.getTime() - checkin.getTime();
+                    const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    
+                    if (nights > 0) {
+                        // Trouver la chambre sélectionnée
+                        const selectedRoom = rooms.find(room => room.id == roomId);
+                        let total = selectedRoom.price * nights;
+                        
+                        // Supplément pour plus de 2 personnes
+                        if (guests > 2) {
+                            total += (guests - 2) * 30 * nights;
+                        }
+                        
+                        document.getElementById('totalPrice').textContent = `Total: €${total}`;
+                    } else {
+                        document.getElementById('totalPrice').textContent = `Dates invalides`;
+                    }
+                }
+            }
+            
+            // Écouteurs d'événements pour le calcul du prix
+            document.getElementById('checkin').addEventListener('change', calculateTotal);
+            document.getElementById('checkout').addEventListener('change', calculateTotal);
+            document.getElementById('room-type').addEventListener('change', calculateTotal);
+            document.getElementById('guests').addEventListener('change', calculateTotal);
+            
+            // Validation des dates
+            document.getElementById('checkin').addEventListener('change', function() {
+                const checkin = new Date(this.value);
+                const checkoutField = document.getElementById('checkout');
+                
+                if (checkoutField.value) {
+                    const checkout = new Date(checkoutField.value);
+                    if (checkout <= checkin) {
+                        checkoutField.value = '';
+                        document.getElementById('totalPrice').textContent = `Total: €0`;
+                    }
+                }
+                
+                // Définir la date de départ min
+                const nextDay = new Date(checkin);
+                nextDay.setDate(nextDay.getDate() + 1);
+                const nextDayStr = nextDay.toISOString().split('T')[0];
+                checkoutField.min = nextDayStr;
+            });
+            
+            // Gestion du formulaire
+            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupérer les données du formulaire
+                const formData = {
+                    checkin: document.getElementById('checkin').value,
+                    checkout: document.getElementById('checkout').value,
+                    roomType: document.getElementById('room-type').value,
+                    guests: document.getElementById('guests').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    specialRequests: document.getElementById('special-requests').value,
+                    total: document.getElementById('totalPrice').textContent
+                };
+                
+                // Trouver la chambre sélectionnée
+                const selectedRoom = rooms.find(room => room.id == formData.roomType);
+                
+                // Afficher la confirmation
+                const modal = document.getElementById('confirmationModal');
+                const confirmationDetails = document.getElementById('confirmationDetails');
+                
+                const checkinDate = new Date(formData.checkin).toLocaleDateString('fr-FR');
+                const checkoutDate = new Date(formData.checkout).toLocaleDateString('fr-FR');
+                
+                confirmationDetails.innerHTML = `
+                    <p><strong>${formData.name}</strong>, votre réservation est confirmée:</p>
+                    <p>${selectedRoom.name} pour ${formData.guests} personne(s)</p>
+                    <p>Du ${checkinDate} au ${checkoutDate}</p>
+                    <p>${formData.total}</p>
+                    <p>Un email de confirmation a été envoyé à ${formData.email}</p>
+                `;
+                
+                modal.style.display = 'flex';
+                
+                // Réinitialiser le formulaire
+                this.reset();
+                document.getElementById('totalPrice').textContent = 'Total: €0';
+            });
+            
+            // Fermer le modal
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                document.getElementById('confirmationModal').style.display = 'none';
+            });
+            
+            document.getElementById('closeModalBtn').addEventListener('click', function() {
+                document.getElementById('confirmationModal').style.display = 'none';
+            });
+            
+            // Fermer le modal en cliquant à l'extérieur
+            window.addEventListener('click', function(e) {
+                const modal = document.getElementById('confirmationModal');
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Navigation fluide
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Pré-remplir le type de chambre si on vient d'une carte chambre
+            const urlParams = new URLSearchParams(window.location.hash.substr(1));
+            if (urlParams.has('room')) {
+                const roomId = urlParams.get('room');
+                document.getElementById('room-type').value = roomId;
+                calculateTotal();
+            }
+            
+            // Pré-remplir depuis les boutons "Réserver"
+            document.querySelectorAll('[data-room-id]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const roomId = this.getAttribute('data-room-id');
+                    document.getElementById('room-type').value = roomId;
+                    calculateTotal();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
